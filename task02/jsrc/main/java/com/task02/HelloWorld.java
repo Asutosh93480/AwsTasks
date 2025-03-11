@@ -24,9 +24,12 @@ public class HelloWorld implements RequestHandler<Object, Map<String, Object>> {
 
 	public Map<String, Object> handleRequest(Object request, Context context) {
 		System.out.println("Hello from lambda");
+		Map<String, Object> resultInsideMap = new HashMap<String, Object>();
+		resultInsideMap.put("statusCode",200);
+		resultInsideMap.put("message","Hello from Lambda");
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("statusCode", 200);
-		resultMap.put("body", "Hello from Lambda");
+		resultMap.put("body", resultInsideMap);
 		return resultMap;
 	}
 }
