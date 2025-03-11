@@ -24,12 +24,24 @@ public class HelloWorld implements RequestHandler<Object, Map<String, Object>> {
 
 	public Map<String, Object> handleRequest(Object request, Context context) {
 		System.out.println("Hello from lambda");
-		Map<String, Object> resultInsideMap = new HashMap<String, Object>();
-		resultInsideMap.put("statusCode",200);
-		resultInsideMap.put("message","Hello from Lambda");
-		Map<String, Object> resultMap = new HashMap<String, Object>();
+
+		// Check if the method is supported (you can customize this logic as needed)
+		String method = context.getAwsRequestId();  // Use the request context for method info (you may have a different way to check)
+
+		if (method == null) {
+			// Return 400 for unsupported method or bad request
+			Map<String, Object> errorResponse = new HashMap<>();
+			errorResponse.put("statusCode", 400);
+			errorResponse.put("message", "Bad request syntax or unsupported method. Request path: /cmtr-84c6fb31. HTTP method: GET");
+			return errorResponse;
+		}
+
+		// Otherwise, return a success message
+		String responseBody = "Hello from Lambda";
+		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("statusCode", 200);
-		resultMap.put("body", resultInsideMap);
+		resultMap.put("body", responseBody);
 		return resultMap;
 	}
+
 }
